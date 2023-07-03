@@ -1,0 +1,16 @@
+{
+  "blossom.pvp.toggle.enabled": "PVP is now enabled!",
+  "blossom.pvp.toggle.disabled": "PVP is now disabled!",
+  "blossom.pvp.change.enabled": "PVP is now enabled!",
+  "blossom.pvp.change.disabled": "PVP is now disabled!",
+  "blossom.pvp.query.enabled": "PVP is currently enabled!",
+  "blossom.pvp.query.disabled": "PVP is currently disabled!",
+  "blossom.pvp.query.player.enabled": "%1$s has PVP currently enabled!",
+  "blossom.pvp.query.player.disabled": "%1$s has PVP currently disabled!",
+  "blossom.pvp.fail.both.attacker": "Both you and %1$s have PVP disabled!",
+  "blossom.pvp.fail.both.defender": "%1$s attacked you, but both of you have PVP disabled!",
+  "blossom.pvp.fail.attacker.attacker": "You have PVP disabled!",
+  "blossom.pvp.fail.attacker.defender": "%1$s attacked you, but they have PVP disabled!",
+  "blossom.pvp.fail.defender.attacker": "%1$s has PVP disabled!",
+  "blossom.pvp.fail.defender.defender": "%1$s attacked you, but you have PVP disabled!"
+}

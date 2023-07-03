@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.codedsakura.blossom.pvp.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "PVPMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

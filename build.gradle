@@ -1,0 +1,96 @@
+plugins {
+    id 'fabric-loom' version '1.1-SNAPSHOT'
+    id 'maven-publish'
+    id "com.modrinth.minotaur" version "2.+"
+}
+
+var mc_version = project.supported_versions.split(";")[0]
+version = "${project.mod_version}+${mc_version}"
+group = project.maven_group
+
+repositories {
+    mavenLocal()
+    maven {
+        url "https://maven.pkg.github.com/BlossomMods/BlossomLib"
+        credentials {
+            username = System.getenv("USERNAME")
+            password = System.getenv("TOKEN")
+        }
+    }
+    maven { url "https://maven.nucleoid.xyz" }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.minecraft_version}+${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    modImplementation "dev.codedsakura.blossom:blossom-lib:${project.blossomlib_version}+${project.minecraft_version}"
+}
+
+processResources {
+    inputs.property "version", project.version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand(
+                "version": project.version,
+                "blossomlib_version": project.blossomlib_version,
+                "supported_versions": project.supported_versions.split(";").join("\",\""),
+        )
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release = 17
+}
+
+java {
+    archivesBaseName = project.archives_base_name
+
+    withSourcesJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+}
+
+publishing {
+    publications {
+        gpr(MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/BlossomMods/${project.mod_slug}")
+            credentials {
+                username = System.getenv("USERNAME")
+                password = System.getenv("TOKEN")
+            }
+        }
+    }
+}
+
+modrinth {
+    projectId = "${project.mod_slug}"
+    versionType = "release"
+    uploadFile = remapJar
+    changelog = System.getenv("CHANGELOG_PATH") ? rootProject.file(System.getenv("CHANGELOG_PATH")).text : ""
+    gameVersions = project.supported_versions.split(";").toList()
+    loaders = ["fabric", "quilt"]
+    dependencies {
+        required.project "BlossomLib"
+    }
+    syncBodyFrom = rootProject.file("README.md").text
+}
+
+tasks.modrinth.dependsOn tasks.modrinthSyncBody
+tasks.publish.dependsOn tasks.modrinth

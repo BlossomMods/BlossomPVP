@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "blossom-pvp",
+  "version": "${version}",
+  "name": "BlossomPVP",
+  "description": "Blossom-series /pvp command",
+  "authors": [
+    "CodedSakura"
+  ],
+  "contact": {
+    "website": "https://blossom.codedsakura.dev",
+    "repo": "https://github.com/BlossomMods/BlossomPVP"
+  },
+  "license": "MIT",
+  "icon": "assets/blossom-pvp/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.codedsakura.blossom.pvp.BlossomPVP"
+    ]
+  },
+  "mixins": [
+    "blossom-pvp.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.3",
+    "minecraft": [
+      "${supported_versions}"
+    ],
+    "blossom-lib": "^${blossomlib_version}"
+  },
+  "suggests": {
+    "fabric-permissions-api-v0": "*"
+  }
+}
