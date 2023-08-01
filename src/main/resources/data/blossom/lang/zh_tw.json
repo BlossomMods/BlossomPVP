@@ -1,0 +1,16 @@
+ {
+  "blossom.pvp.toggle.enabled": "PVP 狀態已開啟!",
+  "blossom.pvp.toggle.disabled": "PVP 狀態已關閉!",
+  "blossom.pvp.change.enabled": "PVP 狀態已開啟!",
+  "blossom.pvp.change.disabled": "PVP 狀態已關閉!",
+  "blossom.pvp.query.enabled": "PVP 狀態當前已開啟!",
+  "blossom.pvp.query.disabled": "PVP 狀態當前已關閉!",
+  "blossom.pvp.query.player.enabled": "%1$s 當前已開啟 PVP 狀態!",
+  "blossom.pvp.query.player.disabled": "%1$s 當前已關閉 PVP 狀態!",
+  "blossom.pvp.fail.both.attacker": "你和玩家 %1$s 的 PVP 狀態已關閉!",
+  "blossom.pvp.fail.both.defender": "%1$s 剛剛攻擊了你, 但你們的 PVP 狀態已關閉!",
+  "blossom.pvp.fail.attacker.attacker": "你的 PVP 狀態已關閉!",
+  "blossom.pvp.fail.attacker.defender": "%1$s 剛剛攻擊了你, 但他的 PVP 狀態已關閉!",
+  "blossom.pvp.fail.defender.attacker": "%1$s 的 PVP 狀態已關閉!",
+  "blossom.pvp.fail.defender.defender": "%1$s 剛剛攻擊了你, 但你的 PVP 狀態已關閉!"
+}
