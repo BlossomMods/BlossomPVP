@@ -6,6 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -41,15 +42,16 @@ public class PVPMixin {
         }
     }
 
+    @Unique
     void messageHelper(PlayerEntity attacker, PlayerEntity defender, String key) {
         MutableText attackerMessage = TextUtils.fTranslation(key + ".attacker", TextUtils.Type.WARN, defender);
-        if (attackerMessage.asTruncatedString(1).length() > 0) {
-            attacker.sendMessage(attackerMessage);
+        if (!attackerMessage.asTruncatedString(1).isEmpty()) {
+            attacker.sendMessage(attackerMessage, false);
         }
 
         MutableText defenderMessage = TextUtils.fTranslation(key + ".defender", TextUtils.Type.WARN, attacker);
-        if (defenderMessage.asTruncatedString(1).length() > 0) {
-            defender.sendMessage(defenderMessage);
+        if (!defenderMessage.asTruncatedString(1).isEmpty()) {
+            defender.sendMessage(defenderMessage, false);
         }
     }
 }
