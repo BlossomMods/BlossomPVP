@@ -10,15 +10,15 @@ import dev.codedsakura.blossom.lib.permissions.Permissions;
 import dev.codedsakura.blossom.lib.text.TextUtils;
 import dev.codedsakura.blossom.lib.utils.CustomLogger;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.server.level.ServerPlayer;
 import org.apache.logging.log4j.core.Logger;
 
 import java.util.UUID;
 
-import static net.minecraft.server.command.CommandManager.argument;
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 
 public class BlossomPVP implements ModInitializer {
     public static BlossomPVPConfig CONFIG = ConfigManager.register(BlossomPVPConfig.class, "BlossomPVP.json", newConfig -> CONFIG = newConfig);
@@ -38,18 +38,18 @@ public class BlossomPVP implements ModInitializer {
                         .executes(this::change))
                 .then(literal("query")
                         .executes(this::query)
-                        .then(argument("player", EntityArgumentType.player())
+                        .then(argument("player", EntityArgument.player())
                                 .requires(Permissions.require("blossom.pvp.query-player", true))
                                 .executes(this::queryPlayer))));
     }
 
-    private int toggle(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
+    private int toggle(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         if (CONFIG.defaultActionIsQuery) {
             return query(ctx);
         }
 
-        ServerPlayerEntity player = ctx.getSource().getPlayerOrThrow();
-        UUID uuid = player.getUuid();
+        ServerPlayer player = ctx.getSource().getPlayerOrException();
+        UUID uuid = player.getUUID();
         boolean state = !pvpController.isPVPEnabled(uuid);
 
         if (state) {
@@ -63,9 +63,9 @@ public class BlossomPVP implements ModInitializer {
         return Command.SINGLE_SUCCESS;
     }
 
-    private int change(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
-        ServerPlayerEntity player = ctx.getSource().getPlayerOrThrow();
-        UUID uuid = player.getUuid();
+    private int change(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
+        ServerPlayer player = ctx.getSource().getPlayerOrException();
+        UUID uuid = player.getUUID();
         boolean state = BoolArgumentType.getBool(ctx, "state");
 
         if (state) {
@@ -79,9 +79,9 @@ public class BlossomPVP implements ModInitializer {
         return Command.SINGLE_SUCCESS;
     }
 
-    private int query(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
-        ServerPlayerEntity player = ctx.getSource().getPlayerOrThrow();
-        UUID uuid = player.getUuid();
+    private int query(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
+        ServerPlayer player = ctx.getSource().getPlayerOrException();
+        UUID uuid = player.getUUID();
         boolean state = pvpController.isPVPEnabled(uuid);
 
         if (state) {
@@ -93,9 +93,9 @@ public class BlossomPVP implements ModInitializer {
         return Command.SINGLE_SUCCESS;
     }
 
-    private int queryPlayer(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
-        ServerPlayerEntity player = EntityArgumentType.getPlayer(ctx, "player");
-        UUID uuid = player.getUuid();
+    private int queryPlayer(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
+        ServerPlayer player = EntityArgument.getPlayer(ctx, "player");
+        UUID uuid = player.getUUID();
         boolean state = pvpController.isPVPEnabled(uuid);
 
         if (state) {
