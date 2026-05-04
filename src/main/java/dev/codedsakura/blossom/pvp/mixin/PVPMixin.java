@@ -46,12 +46,12 @@ public class PVPMixin {
     void messageHelper(Player attacker, Player defender, String key) {
         MutableComponent attackerMessage = TextUtils.fTranslation(key + ".attacker", TextUtils.Type.WARN, defender);
         if (!attackerMessage.getString(1).isEmpty()) {
-            attacker.displayClientMessage(attackerMessage, false);
+            attacker.sendSystemMessage(attackerMessage);
         }
 
         MutableComponent defenderMessage = TextUtils.fTranslation(key + ".defender", TextUtils.Type.WARN, attacker);
         if (!defenderMessage.getString(1).isEmpty()) {
-            defender.displayClientMessage(defenderMessage, false);
+            defender.sendSystemMessage(defenderMessage);
         }
     }
 }
